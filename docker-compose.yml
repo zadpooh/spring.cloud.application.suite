@@ -1,0 +1,45 @@
+version: "3.1"
+
+services:
+  config:
+    image: cloud-config-service
+    build:
+      context: .
+      dockerfile: DockerfileConfig
+    container_name: cloud_config_container
+    restart: always
+    ports:
+      - 8088:8088
+    extra_hosts:
+      - 'localhost:192.168.100.40'
+  discovery:
+    image: cloud-discovery-service
+    build:
+      context: .
+      dockerfile: DockerfileDiscovery
+    container_name: cloud_discovery_container
+    links:
+      - config
+    restart: always
+    ports:
+      - 8061:8061
+    depends_on:
+      - config
+    extra_hosts:
+      - 'localhost:192.168.100.40'
+  gateway:
+    image: cloud-gateway-service
+    build:
+      context: .
+      dockerfile: DockerfileGateway
+    container_name: cloud_gateway_container
+    links:
+      - config
+      - discovery
+    restart: always
+    ports:
+      - 18080:18080
+    depends_on:
+      - discovery
+    extra_hosts:
+      - 'localhost:192.168.100.40'

@@ -1,0 +1,22 @@
+server:
+  port: 7788
+
+spring:
+  profiles:
+    active: native
+  application:
+    name: config-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:7766/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans
+  metrics:
+    tags:
+       application: ${spring.application.name} # metric 정보에 대한 라벨링 설정

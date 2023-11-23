@@ -1,0 +1,133 @@
+server:
+  port: 18080
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+      routes:
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+        - id: creative-user-service
+          uri: http://localhost:8180
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - RewritePath=/api/user/(?<path>.*), /$\{path}
+        - id: creative-material-service
+          uri: http://localhost:8380
+          predicates:
+            - Path=/api/material/**
+          filters:
+            - RewritePath=/api/material/(?<path>.*), /$\{path}
+        - id: creative-copy-service
+          uri: http://localhost:8480
+          predicates:
+            - Path=/api/copy/**
+          filters:
+            - RewritePath=/api/copy/(?<path>.*), /$\{path}
+        - id: creative-ab-test-service
+          uri: http://localhost:8580
+          predicates:
+            - Path=/api/ab-test/**
+          filters:
+            - RewritePath=/api/ab-test/(?<path>.*), /$\{path}
+        - id: creative-statistics-service
+          uri: http://localhost:8280
+          predicates:
+            - Path=/api/statistics/**
+          filters:
+            - RewritePath=/api/statistics/(?<path>.*), /$\{path}
+        - id: creative-main-service
+          uri: http://localhost:8680
+          predicates:
+            - Path=/api/main/**
+          filters:
+            - RewritePath=/api/main/(?<path>.*), /$\{path}
+        - id: creative-user-stage-service
+          uri: http://localhost:8181
+          predicates:
+            - Path=/api/stage/user/**
+          filters:
+            - RewritePath=/api/stage/user/(?<path>.*), /$\{path}
+        - id: creative-material-stage-service
+          uri: http://localhost:8381
+          predicates:
+            - Path=/api/stage/material/**
+          filters:
+            - RewritePath=/api/stage/material/(?<path>.*), /$\{path}
+        - id: creative-copy-stage-service
+          uri: http://localhost:8481
+          predicates:
+            - Path=/api/stage/copy/**
+          filters:
+            - RewritePath=/api/stage/copy/(?<path>.*), /$\{path}
+        - id: creative-stage-ab-test-service
+          uri: http://localhost:8581
+          predicates:
+            - Path=/api/stage/ab-test/**
+          filters:
+            - RewritePath=/api/stage/ab-test/(?<path>.*), /$\{path}
+        - id: creative-statistics-stage-service
+          uri: http://localhost:8281
+          predicates:
+            - Path=/api/stage/statistics/**
+          filters:
+            - RewritePath=/api/stage/statistics/(?<path>.*), /$\{path}
+        - id: creative-main-stage-service
+          uri: http://localhost:8681
+          predicates:
+            - Path=/api/stage/main/**
+          filters:
+            - RewritePath=/api/stage/main/(?<path>.*), /$\{path}
+      globalcors:
+        cors-configurations:
+          '[/api/**]':
+            allowed-origins:
+              - "http://10.251.0.154"
+              - "http://localhost:9292"
+              - "http://cretive.dev.mobon.net"
+              - "http://creative.dev.mobon.net"
+            allowed-methods:
+              - "*"
+            allowed-headers:
+              - "*"
+            allow-credentials: true
+
+springdoc:
+  #  api-docs:
+  #    path: /docs
+  swagger-ui:
+    #    disable-swagger-default-url: true
+    #    path: /swagger
+    urls:
+      - name: resource
+        url: /v3/api-docs/resource
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://spring-discovery-service:8061/eureka/
+
+management:
+  endpoints:
+    health:
+      show-details: always
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name} # metric 정보에 대한 라벨링 설정
+    metadataMap:
+      "prometheus.scrape": "true"
+      "prometheus.path": "/actuator/prometheus"
+      "prometheus.port": ${server.port}
+

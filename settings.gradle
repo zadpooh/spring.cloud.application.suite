@@ -1,0 +1,6 @@
+rootProject.name = 'spring.cloud.application.suite'
+include 'spring-gateway-service'
+include 'spring-discovery-service'
+include 'spring-config-service'
+
+
