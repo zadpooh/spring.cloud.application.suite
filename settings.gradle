@@ -1,4 +1,4 @@
-rootProject.name = 'spring.cloud.application.suite'
+rootProject.name = 'spring.cloud.application.suite.demo'
 include 'spring-gateway-service'
 include 'spring-discovery-service'
 include 'spring-config-service'
