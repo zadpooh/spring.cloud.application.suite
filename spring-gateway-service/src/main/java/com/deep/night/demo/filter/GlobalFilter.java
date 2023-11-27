@@ -15,7 +15,7 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
 	
 	// 설정 정보를 제공하는 클래스
 	@Data
-	public static class Config {	
+	public static class Config {
 		private String baseMessage;
 		private boolean preLogger;
 		private boolean postLogger;

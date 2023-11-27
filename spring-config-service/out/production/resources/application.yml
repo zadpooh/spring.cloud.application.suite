@@ -16,7 +16,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans
+        include: "*"
   metrics:
     tags:
-       application: ${spring.application.name} # metric 정보에 대한 라벨링 설정
+      application: ${spring.application.name} # metric 정보에 대한 라벨링 설정
