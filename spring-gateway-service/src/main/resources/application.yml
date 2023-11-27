@@ -1,54 +1,5 @@
-server:
-  port: 7733
-
 spring:
   application:
     name: gateway-service
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          lower-case-service-id: true
-          enabled: true
-      routes:
-        - id: demo-service
-          uri: lb://DEMO-SERVICE
-          predicates:
-            - Path=/api/demo/**
-          filters:
-            - RewritePath=/api/demo/(?<path>.*), /$\{path}
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-      globalcors:
-        cors-configurations:
-          '[/api/**]':
-            allowed-origins:
-              - "http://localhost:7272"
-            allow-credentials: true
-            allowedHeaders: '*'
-            allowedMethods:
-              - PUT
-              - GET
-              - POST
-              - DELETE
-              - OPTIONS
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:7766/eureka/
-
-management:
-  endpoints:
-    health:
-      show-details: always
-    web:
-      exposure:
-        include: "*"
-  metrics:
-    tags:
-      application: ${spring.application.name} # metric 정보에 대한 라벨링 설정
-    metadataMap:
-      "prometheus.scrape": "true"
-      "prometheus.path": "/actuator/prometheus"
-      "prometheus.port": ${server.port}
-
+  config:
+    import: "optional:configserver:http://config:7788"
