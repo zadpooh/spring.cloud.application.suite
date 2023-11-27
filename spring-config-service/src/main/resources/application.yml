@@ -13,6 +13,7 @@ spring:
           uri: git@github.com:zadpooh/spring.cloud.application.suite.git
           search-paths: /**
           default-label: master
+
 encrypt:
   key: zadpooh-deep-night-swpark
 
