@@ -1,0 +1,35 @@
+#http://docs.spring.io/spring-boot/docs/current/reference/html/howto-properties-and-configuration.html
+#http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+spring:
+  application:
+    name: demo-service
+  config:
+    import: "optional:configserver:http://localhost:7788"
+  profiles:
+    active: local
+  main:
+    banner-mode: console
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:7766/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
+server:
+  port: 7781
+
+#---
+#server:
+#  port: 18080
+#  servlet:
+#    context-path: /api
+#  error:
+#    whitelabel:
+#      enabled: true
+#    path: /error
+

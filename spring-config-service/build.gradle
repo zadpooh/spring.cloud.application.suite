@@ -1,0 +1,39 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+
+	ext {
+		springCloudVersion="2021.0.1"
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.7.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'war'
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+apply plugin: 'war'
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+dependencies {
+	developmentOnly "org.springframework.boot:spring-boot-devtools"
+	implementation 'org.springframework.cloud:spring-cloud-config-server'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
