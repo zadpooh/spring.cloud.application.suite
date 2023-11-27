@@ -2,43 +2,43 @@ version: "3.1"
 
 services:
   config:
-    image: cloud-config-service
+    image: cloud-config-service-demo
     build:
       context: .
-      dockerfile: DockerfileConfig
-    container_name: cloud_config_container
+      dockerfile: ./spring-config-service/src/main/resources/DockerfileConfig
+    container_name: cloud_config_container_demo
     restart: always
     ports:
-      - 8088:8088
+      - 7788:7788
     extra_hosts:
       - 'localhost:192.168.100.40'
   discovery:
-    image: cloud-discovery-service
+    image: cloud-discovery-service-demo
     build:
       context: .
-      dockerfile: DockerfileDiscovery
-    container_name: cloud_discovery_container
+      dockerfile: ./spring-discovery-service/src/main/resources/DockerfileDiscovery
+    container_name: cloud_discovery_container_demo
     links:
       - config
     restart: always
     ports:
-      - 8061:8061
+      - 7766:7766
     depends_on:
       - config
     extra_hosts:
       - 'localhost:192.168.100.40'
   gateway:
-    image: cloud-gateway-service
+    image: cloud-gateway-service-demo
     build:
       context: .
-      dockerfile: DockerfileGateway
-    container_name: cloud_gateway_container
+      dockerfile: ./spring-gateway-service/src/main/resources/DockerfileGateway
+    container_name: cloud_gateway_container_demo
     links:
       - config
       - discovery
     restart: always
     ports:
-      - 18080:18080
+      - 7733:7733
     depends_on:
       - discovery
     extra_hosts:
