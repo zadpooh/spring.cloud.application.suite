@@ -11,7 +11,7 @@ spring:
       server:
         git:
           uri: git@github.com:zadpooh/spring.cloud.application.suite.git
-          search-paths: config/**
+          search-paths: /**
           default-label: master
 
 encrypt:
