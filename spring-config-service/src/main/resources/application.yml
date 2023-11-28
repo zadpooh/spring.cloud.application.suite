@@ -10,8 +10,8 @@ spring:
     config:
       server:
         git:
-          uri: git@github.com:zadpooh/spring.cloud.application.suite.git/spring-config-service/config/
-          search-paths: /**
+          uri: git@github.com:zadpooh/spring.cloud.application.suite.git
+          search-paths: config/**
           default-label: master
 
 encrypt:

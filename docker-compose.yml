@@ -20,7 +20,7 @@ services:
     container_name: cloud_discovery_container_demo
     links:
       - config
-    restart: always
+    restart: alwaysX
     ports:
       - 7766:7766
     depends_on:
