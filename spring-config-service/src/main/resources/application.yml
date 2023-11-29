@@ -2,17 +2,19 @@ server:
   port: 7788
 
 spring:
-  profiles:
-    active: native
+#  profiles:
+#    active: native
   application:
     name: config-service
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/zadpooh/spring.cloud.application.suite.git/tree/master/config
-          search-paths: /**
+          uri: https://github.com/zadpooh/spring.cloud.application.suite.git
           default-label: master
+          search-paths: config/**
+#        encrypt:
+#          enabled: false
 
 encrypt:
   key: zadpooh-deep-night-swpark
