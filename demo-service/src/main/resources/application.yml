@@ -10,6 +10,9 @@ spring:
   main:
     banner-mode: console
 
+encrypt:
+  key: zadpooh-deep-night-swpark
+
 eureka:
   client:
     fetch-registry: true
