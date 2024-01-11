@@ -6,10 +6,10 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-#      discovery:
-#        locator:
-#          lower-case-service-id: true
-#          enabled: true
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
       routes:
         - id: demo-service
           uri: lb://DEMO-SERVICE
