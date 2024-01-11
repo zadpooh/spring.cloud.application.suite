@@ -11,18 +11,18 @@ spring:
           lower-case-service-id: true
           enabled: true
       routes:
-        - id: openapi
-          uri: http://localhost:${server.port}
-          predicates:
-            - Path=/v3/api-docs/**
-          filters:
-            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
         - id: demo-service
           uri: lb://DEMO-SERVICE
           predicates:
             - Path=/api/demo/**
           filters:
             - RewritePath=/api/demo/(?<path>.*), /$\{path}
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       globalcors:
@@ -40,19 +40,10 @@ spring:
               - OPTIONS
 
 springdoc:
-  enable-native-support: true
-  api-docs:
-    enabled: true
   swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
-    config-url: /v3/api-docs/swagger-config
-    urls:
-      #      - url: /v3/api-docs
-      #        name: API Gateway Service
-      #        primaryName: API Gateway Service
-      - url: /member-service/v3/api-docs
-        name: Member
+    urls[0]:
+      name: demo-service
+      url: http://localhost:${server.port}/v3/api-docs/demo-service
 
 eureka:
   client:
