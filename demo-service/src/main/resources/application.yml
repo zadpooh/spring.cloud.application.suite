@@ -24,19 +24,12 @@ eureka:
     prefer-ip-address: true
 
 server:
-  port: 7781
-
+  port: 0
 
 springdoc:
-  api-docs:
-    path: /api/demo/v3/api-docs
   swagger-ui:
-    path: /api/demo/swagger-ui.html
-
-openapi:
-  service:
-    # API Gateway 포트
-    url: http://localhost:7733
+    path: /doc/swagger
+    operations-sorter: method
 
 #---
 #server:

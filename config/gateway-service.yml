@@ -2,6 +2,8 @@ server:
   port: 7733
 
 spring:
+  application:
+    name: gateway-service
   cloud:
     gateway:
       discovery:
@@ -37,7 +39,6 @@ spring:
               - DELETE
               - OPTIONS
 
-
 springdoc:
   enable-native-support: true
   api-docs:
@@ -50,8 +51,8 @@ springdoc:
       #      - url: /v3/api-docs
       #        name: API Gateway Service
       #        primaryName: API Gateway Service
-      - url: /api/demo/v3/api-docs
-        name: demo-service
+      - url: /member-service/v3/api-docs
+        name: Member
 
 eureka:
   client:
