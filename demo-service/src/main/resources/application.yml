@@ -24,7 +24,7 @@ eureka:
     prefer-ip-address: true
 
 server:
-  port: 0
+  port: 7781
 
 springdoc:
   swagger-ui:
