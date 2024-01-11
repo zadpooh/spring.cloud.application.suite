@@ -6,10 +6,10 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      discovery:
-        locator:
-          lower-case-service-id: true
-          enabled: true
+#      discovery:
+#        locator:
+#          lower-case-service-id: true
+#          enabled: true
       routes:
         - id: demo-service
           uri: lb://DEMO-SERVICE
@@ -23,21 +23,21 @@ spring:
             - Path=/v3/api-docs/**
           filters:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowed-origins:
-              - "http://localhost:7272"
-            allow-credentials: true
-            allowedHeaders: '*'
-            allowedMethods:
-              - PUT
-              - GET
-              - POST
-              - DELETE
-              - OPTIONS
+#      default-filters:
+#        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            allowed-origins:
+#              - "http://localhost:7272"
+#            allow-credentials: true
+#            allowedHeaders: '*'
+#            allowedMethods:
+#              - PUT
+#              - GET
+#              - POST
+#              - DELETE
+#              - OPTIONS
 
 springdoc:
   swagger-ui:
