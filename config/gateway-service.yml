@@ -19,7 +19,7 @@ spring:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       globalcors:
         cors-configurations:
-          '[/api/**]':
+          '[/**]':
             allowed-origins:
               - "http://localhost:7272"
             allow-credentials: true
@@ -30,6 +30,23 @@ spring:
               - POST
               - DELETE
               - OPTIONS
+
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      #      - url: /v3/api-docs
+      #        name: API Gateway Service
+      #        primaryName: API Gateway Service
+      - url: /api/demo/v3/api-docs
+        name: demo-service
+
 eureka:
   client:
     serviceUrl:
