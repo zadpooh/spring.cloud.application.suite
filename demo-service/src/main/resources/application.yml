@@ -28,16 +28,6 @@ server:
 
 springdoc:
   swagger-ui:
-    path: /doc/swagger
+    path: /
     operations-sorter: method
-
-#---
-#server:
-#  port: 18080
-#  servlet:
-#    context-path: /api
-#  error:
-#    whitelabel:
-#      enabled: true
-#    path: /error
 
