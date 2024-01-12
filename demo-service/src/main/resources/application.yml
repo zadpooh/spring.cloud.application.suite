@@ -30,4 +30,3 @@ springdoc:
   swagger-ui:
     path: /
     operations-sorter: method
-
