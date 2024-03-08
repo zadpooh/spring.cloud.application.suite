@@ -1,19 +1,18 @@
-package com.deep.night.demo;
+package com.deep.night.demo.board;
 
 import com.deep.night.demo.config.response.Result;
-import com.deep.night.demo.kafka.producer.AlarmProducer;
-import com.deep.night.demo.vo.AlarmEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @EnableAutoConfiguration
 @RestController
+@RequestMapping("/board")
 @Slf4j
-public class DemoController {
+public class BoardController {
 
     @Value("${server.port}")
     private String serverPort;

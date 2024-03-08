@@ -39,11 +39,12 @@ public class JdbcDataSourceConfigurator {
         jpaEntityManagerFactory.setPersistenceUnitName("jpaEntityManager");
 
         HibernateJpaVendorAdapter vendorAdapter= new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
         jpaEntityManagerFactory.setJpaVendorAdapter(vendorAdapter);
 
         HashMap<String, Object> properties = new HashMap<>();
-        properties.put("spring.jpa.hibernate.ddl-autoo",env.getProperty("spring.jpa.hibernate.ddl-auto"));
         properties.put("spring.jpa.hibernate.dialect",env.getProperty("spring.jpa.hibernate.dialect"));
+        properties.put("spring.jpa.hibernate.ddl-auto",env.getProperty("spring.jpa.hibernate.ddl-auto"));
         jpaEntityManagerFactory.setJpaPropertyMap(properties);
 
         return jpaEntityManagerFactory;
@@ -53,11 +54,8 @@ public class JdbcDataSourceConfigurator {
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
-
-        log.info("[jdbcUrl] =========================> {}",env.getProperty("spring.datasource.jdbcUrl"));
-
         hikariConfig.setDriverClassName(env.getProperty("spring.datasource.driverClassName"));
-        hikariConfig.setJdbcUrl(env.getProperty("spring.datasource.jdbcUrl"));
+        hikariConfig.setJdbcUrl( "jdbc:log4jdbc:mariadb://"+ env.getProperty("spring.datasource.jdbcUrl"));
         hikariConfig.setUsername(env.getProperty("spring.datasource.username"));
         hikariConfig.setPassword(env.getProperty("spring.datasource.password"));
 
