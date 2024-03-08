@@ -2,6 +2,7 @@ package com.deep.night.demo.config.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.HashMap;
 
+@Slf4j
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
@@ -51,6 +53,8 @@ public class JdbcDataSourceConfigurator {
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
+
+        log.info("[jdbcUrl] =========================> {}",env.getProperty("spring.datasource.jdbcUrl"));
 
         hikariConfig.setDriverClassName(env.getProperty("spring.datasource.driverClassName"));
         hikariConfig.setJdbcUrl(env.getProperty("spring.datasource.jdbcUrl"));

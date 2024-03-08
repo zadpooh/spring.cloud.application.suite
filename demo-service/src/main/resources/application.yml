@@ -9,6 +9,12 @@ spring:
     active: local
   main:
     banner-mode: console
+  kafka:
+    producer:
+      properties:
+        min:
+          insync:
+            replicas: 2
 
 encrypt:
   key: zadpooh-deep-night-swpark
