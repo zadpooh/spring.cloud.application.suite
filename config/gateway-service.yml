@@ -19,6 +19,7 @@ spring:
             - Path=/api/demo/**
           filters:
             - RewritePath=/api/demo/(?<path>.*), /$\{path}
+            - AuthorizationHeaderFilter
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       globalcors:
@@ -67,3 +68,7 @@ management:
       "prometheus.path": "/actuator/prometheus"
       "prometheus.port": ${server.port}
 
+
+token:
+  expiration_time: 86400000
+  secret: deepnightzadpooh
