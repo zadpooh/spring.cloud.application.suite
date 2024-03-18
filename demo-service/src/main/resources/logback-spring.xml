@@ -41,7 +41,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
-    <springProfile name="local, local-stage">
+    <springProfile name="demo-local, local-stage">
         <root level="INFO">
             <appender-ref ref="stdout" />
         </root>
