@@ -1,6 +1,9 @@
 package com.deep.night.demo.filter;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Encoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -12,6 +15,10 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Date;
 
 @Component
 @Slf4j
@@ -58,16 +65,27 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
 
     private boolean isJwtValid(String jwt) {
+        String secretKey = env.getProperty("token.secret");
+        Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
         boolean returnValue = true;
         String subject = null;
 
+        String token = Jwts.builder()
+                .setSubject("swpark")
+                .setExpiration(new Date(System.currentTimeMillis() +
+                        Long.parseLong(env.getProperty("token.expiration_time"))))
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+
         try {
-            subject = Jwts.parserBuilder().setSigningKey(env.getProperty("token.secret"))
+            subject = Jwts.parserBuilder()
+                    .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(jwt).getBody()
+                    .parseClaimsJws(token).getBody()
                     .getSubject();
         } catch (Exception ex) {
+            log.error("jwt error : {}", ex.getMessage());
             returnValue = false;
         }
 
