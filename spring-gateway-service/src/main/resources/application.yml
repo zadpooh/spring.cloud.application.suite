@@ -4,3 +4,7 @@ spring:
   config:
     import: "optional:configserver:http://localhost:7788"
 #    import: "optional:configserver:http://config:7788"
+
+token:
+  expiration_time: 86400000
+  secret: DDrW7XJsu0CWuSHqooRLL3GGyfayKemwshHZ8nDQCDPfHeRhfUDiHZDkluqomPdqEbUFtXh0ZRwY0nuDq8xWbN2AzqBPtBciVfyk
