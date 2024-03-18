@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 @EnableAutoConfiguration
@@ -31,7 +32,9 @@ public class BoardController {
     }
 
     @GetMapping("/board/detail/{id}")
-    public Result detail(@PathVariable(name="id") final int id) throws Exception {
+    public Result detail(@PathVariable(name="id") final int id,
+                         @RequestHeader HttpHeaders header) throws Exception {
+        log.info("header : {}", header);
         Board boardDetail = boardRepository.findById(id).orElse(Board.builder().build());
         return new Result<>(new BoardDto.Res(boardDetail));
     }

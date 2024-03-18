@@ -1,5 +1,4 @@
-#http://docs.spring.io/spring-boot/docs/current/reference/html/howto-properties-and-configuration.html
-#http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+
 spring:
   application:
     name: demo-service
@@ -30,7 +29,7 @@ eureka:
     prefer-ip-address: true
 
 server:
-  port: 7781
+  port: 0
 
 springdoc:
   swagger-ui:

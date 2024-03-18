@@ -20,6 +20,8 @@ spring:
           filters:
             - RewritePath=/api/demo/(?<path>.*), /$\{path}
             - AuthorizationHeaderFilter
+            - CustomFilter
+            - GlobalFilter
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       globalcors:
