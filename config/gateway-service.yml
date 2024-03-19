@@ -22,7 +22,7 @@ spring:
             - CustomFilter
             - GlobalFilter
         - id: user-auth-service
-          uri: lb://DEMO-AUTH-SERVICE
+          uri: lb://USER-AUTH-SERVICE
           predicates:
             - Path=/api/user/auth/**
           filters:
