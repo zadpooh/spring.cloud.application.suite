@@ -53,11 +53,11 @@ public class User {
     @Comment("도시")
     private String city;
 
-    @Column(name = "PROVINCE", nullable = false, , length = 50)
+    @Column(name = "PROVINCE", nullable = false , length = 50)
     @Comment("지방")
     private String province;
 
-    @Column(name = "ZIPCODE", nullable = false)
+    @Column(name = "ZIPCODE", nullable = false , length = 20)
     @Comment("우편번호")
     private String zipcode;
 
