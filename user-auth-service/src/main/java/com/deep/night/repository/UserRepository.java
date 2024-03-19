@@ -1,9 +1,9 @@
 package com.deep.night.repository;
 
-import com.deep.night.user.domain.Board;
+import com.deep.night.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<Board, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 }
