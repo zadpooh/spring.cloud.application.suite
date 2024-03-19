@@ -1,5 +1,5 @@
 allprojects {
-	group = 'com.deep.night.demo'
+	group = 'com.deep.night'
 	version = '1.0.0'
 }
 

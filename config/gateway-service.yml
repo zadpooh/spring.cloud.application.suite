@@ -19,7 +19,15 @@ spring:
             - Path=/api/demo/**
           filters:
             - RewritePath=/api/demo/(?<path>.*), /$\{path}
-            - AuthorizationHeaderFilter
+            - CustomFilter
+            - GlobalFilter
+        - id: user-auth-service
+          uri: lb://DEMO-AUTH-SERVICE
+          predicates:
+            - Path=/api/user/auth/**
+          filters:
+            - RewritePath=/api/user/auth/(?<path>.*), /$\{path}
+#            - AuthorizationHeaderFilter
             - CustomFilter
             - GlobalFilter
       default-filters:
