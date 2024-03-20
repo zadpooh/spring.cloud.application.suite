@@ -24,10 +24,18 @@ spring:
         - id: user-auth-service
           uri: lb://USER-AUTH-SERVICE
           predicates:
-            - Path=/api/user/auth/**
+            - Path=/api/auth/**
           filters:
-            - RewritePath=/api/user/auth/(?<path>.*), /$\{path}
-#            - AuthorizationHeaderFilter
+            - RewritePath=/api/auth/(?<path>.*), /$\{path}
+            - AuthorizationHeaderFilter
+            - CustomFilter
+            - GlobalFilter
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - RewritePath=/api/user/(?<path>.*), /$\{path}
             - CustomFilter
             - GlobalFilter
       default-filters:
@@ -65,15 +73,18 @@ eureka:
 
 management:
   endpoints:
-    health:
-      show-details: always
+#    health:
+#      show-details: always
     web:
       exposure:
         include: "*"
-  metrics:
-    tags:
-      application: ${spring.application.name} # metric 정보에 대한 라벨링 설정
-    metadataMap:
-      "prometheus.scrape": "true"
-      "prometheus.path": "/actuator/prometheus"
-      "prometheus.port": ${server.port}
+    endpoint:
+      gateway:
+        enabled: true
+#  metrics:
+#    tags:
+#      application: ${spring.application.name} # metric 정보에 대한 라벨링 설정
+#    metadataMap:
+#      "prometheus.scrape": "true"
+#      "prometheus.path": "/actuator/prometheus"
+#      "prometheus.port": ${server.port}

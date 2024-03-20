@@ -15,12 +15,6 @@ spring:
       max-file-size: '10MB'
       max-request-size: '11MB'
 
-logging:
-  file:
-    name: 'D:/storage/logs/tomcat/user/application'
-#  pattern:
-#    file: 'D:/storage/logs/tomcat/user/application.log.%d{yyyy-MM-dd}'
-
 encrypt:
   key: zadpooh-deep-night-swpark
 
