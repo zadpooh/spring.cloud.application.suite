@@ -3,10 +3,9 @@
 <configuration scan="true" scanperiod="1 minutes">
 
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-    <!--<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />-->
     <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
-    <!--<include resource="org/springframework/boot/logging/logback/defaults.xml" />-->
-    <property name="log.file" value="${logging.file.name}" />
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <property name="log.file" value="${LOG_FILE}" />
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -43,7 +42,7 @@
     </appender>
     <springProfile name="user-local, local-stage">
         <root level="INFO">
-            <appender-ref ref="stdout" />
+            <appender-ref ref="dailyRollingInfo" />
         </root>
 
         <!--<logger name="org.springframework" level="DEBUG" additivity="false">-->

@@ -1,3 +1,6 @@
+server:
+  port: 0
+
 spring:
   application:
     name: user-auth-service
@@ -7,6 +10,16 @@ spring:
     active: user-local
   main:
     banner-mode: console
+  http:
+    multipart:
+      max-file-size: '10MB'
+      max-request-size: '11MB'
+
+logging:
+  file:
+    name: 'D:/storage/logs/tomcat/user/application'
+#  pattern:
+#    file: 'D:/storage/logs/tomcat/user/application.log.%d{yyyy-MM-dd}'
 
 encrypt:
   key: zadpooh-deep-night-swpark
@@ -21,6 +34,4 @@ eureka:
     hostname: localhost
     prefer-ip-address: true
 
-server:
-  port: 0
 
