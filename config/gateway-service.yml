@@ -30,7 +30,7 @@ spring:
             - CustomFilter
 #            - GlobalFilter
         - id: user-service
-          uri: lb://USER-SERVICE
+          uri: lb://USER-AUTH-SERVICE
           predicates:
             - Path=/api/user/**
           filters:

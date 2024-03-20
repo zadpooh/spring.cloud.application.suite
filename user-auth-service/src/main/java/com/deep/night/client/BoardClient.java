@@ -2,7 +2,6 @@ package com.deep.night.client;
 
 import com.deep.night.client.dto.BoardDto;
 import com.deep.night.config.response.Result;
-import com.deep.night.user.domain.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
