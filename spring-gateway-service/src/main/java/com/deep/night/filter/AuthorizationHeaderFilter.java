@@ -66,28 +66,19 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     }
 
 
-    private boolean isJwtValid(ServerHttpRequest request, String jwt) {
+    private boolean isJwtValid(ServerHttpRequest request, String jwtToken) {
         String secretKey = env.getProperty("token.secret");
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
         boolean returnValue = true;
         String subject = null;
 
-//        String token = Jwts.builder()
-//                .setSubject("swpark")
-//                .setExpiration(new Date(System.currentTimeMillis() +
-//                        Long.parseLong(env.getProperty("token.expiration_time"))))
-//                .signWith(key, SignatureAlgorithm.HS512)
-//                .compact();
-
-        String token = jwt;
-
         try {
 
             subject = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(token).getBody()
+                    .parseClaimsJws(jwtToken).getBody()
                     .getSubject();
 
             log.info("subject : {}", subject);
@@ -121,7 +112,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     public class JwtTokenExceptionHandler implements ErrorWebExceptionHandler {
         private Map getErrorCode(int errorCode) {
             //return "{ errorCode : " + errorCode + "}";
-            return Map.of("errorCode", "errorCode");
+            return Map.of("errorCode", errorCode);
         }
 
         @Override

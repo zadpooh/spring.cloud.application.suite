@@ -21,6 +21,10 @@ public class User {
     @Comment("기본키")
     private int dnUserId;
 
+    @Column(name = "DN_USER_PASSWORD", nullable = false, length = 100)
+    @Comment("비밀번호")
+    private String dnUserPassword;
+
     @Column(name = "FIRST_NAME", nullable = false, length = 10)
     @Comment("성")
     private String firstName;

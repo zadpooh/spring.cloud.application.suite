@@ -23,7 +23,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/board/detail/{dnBoardId}")
+    @GetMapping("/detail/{dnBoardId}")
     public Result<BoardDto.Res> getBoardDetail(@PathVariable(name = "dnBoardId") int dnBoardId){
         return UserService.getBoard(dnBoardId);
     }
