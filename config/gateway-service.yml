@@ -27,17 +27,17 @@ spring:
             - Path=/api/auth/**
           filters:
             - RewritePath=/api/auth/(?<path>.*), /$\{path}
-            - AuthorizationHeaderFilter
+#            - AuthorizationHeaderFilter
             - CustomFilter
             - GlobalFilter
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/api/user/**
-          filters:
-            - RewritePath=/api/user/(?<path>.*), /$\{path}
-            - CustomFilter
-            - GlobalFilter
+#        - id: user-service
+#          uri: lb://USER-SERVICE
+#          predicates:
+#            - Path=/api/user/**
+#          filters:
+#            - RewritePath=/api/user/(?<path>.*), /$\{path}
+#            - CustomFilter
+#            - GlobalFilter
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       globalcors:
