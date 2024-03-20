@@ -1,4 +1,3 @@
-
 spring:
   application:
     name: user-auth-service
@@ -8,12 +7,6 @@ spring:
     active: user-local
   main:
     banner-mode: console
-  kafka:
-    producer:
-      properties:
-        min:
-          insync:
-            replicas: 2
 
 encrypt:
   key: zadpooh-deep-night-swpark
@@ -31,7 +24,3 @@ eureka:
 server:
   port: 0
 
-springdoc:
-  swagger-ui:
-    path: /
-    operations-sorter: method
