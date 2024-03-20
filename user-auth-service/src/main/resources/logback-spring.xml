@@ -3,10 +3,10 @@
 <configuration scan="true" scanperiod="1 minutes">
 
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <!--<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />-->
     <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
-    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <property name="log.file" value="${LOG_FILE}" />
+    <!--<include resource="org/springframework/boot/logging/logback/defaults.xml" />-->
+    <property name="log.file" value="${logging.file.name}" />
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
