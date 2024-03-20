@@ -40,8 +40,7 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
 			if (config.isPreLogger()) {
 				log.info("Global Filter is start ... request id = {}", request.getId());
 			}
-			
-			
+
 			// custom post filter
 			// 응답의 처리상태코드를 로그로 출력
 			return chain.filter(exchange).then(Mono.fromRunnable(() -> {

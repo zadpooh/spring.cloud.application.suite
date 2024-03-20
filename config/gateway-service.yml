@@ -26,10 +26,10 @@ spring:
           predicates:
             - Path=/api/auth/**
           filters:
-            - RewritePath=/api/auth/(?<path>.*), /$\{path}
+            - RewritePath=/api/auth/user/(?<path>.*), /$\{path}
 #            - AuthorizationHeaderFilter
             - CustomFilter
-            - GlobalFilter
+#            - GlobalFilter
 #        - id: user-service
 #          uri: lb://USER-SERVICE
 #          predicates:
