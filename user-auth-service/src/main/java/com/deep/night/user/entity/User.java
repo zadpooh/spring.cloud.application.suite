@@ -1,4 +1,4 @@
-package com.deep.night.user.domain;
+package com.deep.night.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

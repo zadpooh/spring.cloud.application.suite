@@ -28,14 +28,14 @@ public class BoardDto {
             this.createUserId = createUserId;
         }
 
-        public Board toEntity() {
-            return Board.builder()
-                    .title(this.title)
-                    .content(this.content)
-                    .createDate(this.createDate)
-                    .createUserId(this.createUserId)
-                    .build();
-        }
+//        public Board toEntity() {
+//            return Board.builder()
+//                    .title(this.title)
+//                    .content(this.content)
+//                    .createDate(this.createDate)
+//                    .createUserId(this.createUserId)
+//                    .build();
+//        }
     }
 
     @Getter
