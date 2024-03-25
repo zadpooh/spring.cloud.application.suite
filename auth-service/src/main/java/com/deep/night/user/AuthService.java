@@ -5,10 +5,12 @@ import com.deep.night.repository.UserRepository;
 import com.deep.night.user.dto.AuthDto;
 import com.deep.night.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -32,6 +34,9 @@ public class AuthService {
     private final UserRepository userRepository;
 
     private final BCryptPasswordEncoder encoder;
+
+//    @Autowired
+//    private PasswordEncoder pwEncoder;
 
     private final RedisTemplate<String, String> redisTemplate;
 

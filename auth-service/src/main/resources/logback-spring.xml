@@ -43,7 +43,7 @@
         </appender>
     </springProfile>
 
-    <springProfile name="user-local, local-stage">
+    <springProfile name="auth-local, local-stage">
         <root level="INFO">
             <appender-ref ref="stdout" />
         </root>

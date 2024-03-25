@@ -1,6 +1,5 @@
 package com.deep.night.filter;
 
-import com.deep.night.client.AuthClient;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -29,12 +28,10 @@ import java.util.Map;
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
 
     Environment env;
-    AuthClient authClient;
 
-    public AuthorizationHeaderFilter(Environment env, AuthClient authClient) {
+    public AuthorizationHeaderFilter(Environment en) {
         super(Config.class);
         this.env = env;
-        this.authClient= authClient;
     }
 
     public static class Config {
