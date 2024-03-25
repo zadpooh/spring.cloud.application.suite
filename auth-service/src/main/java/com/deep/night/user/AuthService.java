@@ -15,6 +15,8 @@ import org.springframework.util.ObjectUtils;
 import java.util.DuplicateFormatFlagsException;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
 import com.deep.night.config.response.Result;
 
 @Service
@@ -37,19 +39,19 @@ public class AuthService {
 
         Optional.ofNullable(userRepository.findByEmail(signInReq.getEmail())).ifPresent(user -> {
             throw new DuplicateFormatFlagsException(String.format("Username :"+signInReq.getEmail()));
-            //throw new HospitalReviewAppException(ErrorCode.DUPLICATED_USER_NAME,String.format("Username :"+request.getUserName()));
         });
 
         User saveUser = userRepository.save(signInReq.toEntity(encoder.encode(signInReq.getDnUserPassword())));
         return new Result<>(new AuthDto.SignInRes(saveUser));
     }
 
-    public Map signUp(AuthDto.SignUpReq signUpReq){
+    public AuthDto.SignUpRes signUp(AuthDto.SignUpReq signUpReq){
         User user = userRepository.findByEmail(signUpReq.getEmail());
 
         if(ObjectUtils.isEmpty(user)){
             throw new DuplicateFormatFlagsException(String.format("Username :" + signUpReq.getEmail()));
         }
+
         // password일치 하는지 여부 확인
         if(!encoder.matches(signUpReq.getDnUserPassword(), user.getDnUserPassword())){
             throw new DuplicateFormatFlagsException("비밀번호가 틀립니다.");// encoder.matches는 암호화된 문자를 입력된 문자와 비교해주는 메서드이다
@@ -59,11 +61,39 @@ public class AuthService {
         String refreshToken= JwtTokenUtil.createToken(signUpReq.getEmail(), tokenSecre, String.valueOf(Integer.parseInt(tokenExpirationTime)*14));
 
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(signUpReq.getEmail(), refreshToken);
+        valueOperations.set(refreshToken, signUpReq.getEmail(), Integer.parseInt(tokenExpirationTime)*14, TimeUnit.SECONDS);
 
-        return Map.of(
-                "accessToken",accessToken,
-                "refreshToken",refreshToken
-        );
+        return AuthDto.SignUpRes.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+    public AuthDto.SignUpRes generate(String refreshToken){
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        String refreshTokenFlag = valueOperations.get(refreshToken);
+
+        if(ObjectUtils.isEmpty(refreshTokenFlag)){
+            throw new DuplicateFormatFlagsException("토큰 값이 유효하지 않습니다.");
+        }
+
+        String subject =JwtTokenUtil.isJwtValid(refreshToken, tokenSecre);
+
+        if(ObjectUtils.isEmpty(subject)){
+            throw new DuplicateFormatFlagsException("토큰 VALUE 값이 존재 하지 않습니다.");
+        }
+
+        User user = userRepository.findByEmail(subject);
+
+        if(ObjectUtils.isEmpty(user)){
+            throw new DuplicateFormatFlagsException(String.format("Username :" + user.getEmail()));
+        }
+
+        String accessToken = JwtTokenUtil.createToken(user.getEmail(), tokenSecre, String.valueOf(Integer.parseInt(tokenExpirationTime)));
+
+        return AuthDto.SignUpRes.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 }

@@ -3,11 +3,13 @@ package com.deep.night.common.utils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Key;
 import java.util.Date;
 
+@Slf4j
 public class JwtTokenUtil {
 
     public static String createToken(String email, String tokenSecret, String tokenExpirationTime){
@@ -22,5 +24,24 @@ public class JwtTokenUtil {
                 .compact();
 
         return token;
+    }
+
+    public static String isJwtValid(String jwtToken, String secretKey) {
+        Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
+        String subject = null;
+
+        try {
+
+            subject = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(jwtToken).getBody()
+                    .getSubject();
+
+        } catch (Exception ex) {
+            log.error("jwt error : {}", ex.getMessage());
+        }
+
+        return subject;
     }
 }
