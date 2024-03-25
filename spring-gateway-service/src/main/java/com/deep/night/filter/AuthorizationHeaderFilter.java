@@ -49,7 +49,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
             String jwt = authorizationHeader.replace("Bearer ", "");
 
-            if (!isJwtValid(request, jwt)) {
+            if (!isJwtValid(jwt)) {
                 return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
             }
             return chain.filter(exchange);
@@ -66,7 +66,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     }
 
 
-    private boolean isJwtValid(ServerHttpRequest request, String jwtToken) {
+    private boolean isJwtValid(String jwtToken) {
         String secretKey = env.getProperty("token.secret");
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
@@ -92,24 +92,22 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             returnValue = false;
         }
 
-        addAuthorizationHeaders(request, subject);
-
         return returnValue;
     }
 
-    private void addAuthorizationHeaders(ServerHttpRequest request, String userId) {
+    /*private void addAuthorizationHeaders(ServerHttpRequest request, String userId) {
         request.mutate()
                 .header("X-Authorization-Id", userId)
                 .build();
-    }
+    }*/
 
     @Bean
     public ErrorWebExceptionHandler tokenValidation() {
-        return new JwtTokenExceptionHandler();
+        return new jwtTokenExceptionHandler();
     }
 
     // 실제 토큰이 null, 만료 등 예외 상황에 따른 예외처리
-    public class JwtTokenExceptionHandler implements ErrorWebExceptionHandler {
+    public class jwtTokenExceptionHandler implements ErrorWebExceptionHandler {
         private Map getErrorCode(int errorCode) {
             //return "{ errorCode : " + errorCode + "}";
             return Map.of("errorCode", errorCode);
