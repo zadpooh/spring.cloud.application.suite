@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @EnableAutoConfiguration
 @RestController
-@RequestMapping("/auth/user")
+//@RequestMapping("/auth/user")
 @Slf4j
 public class AuthController {
 
