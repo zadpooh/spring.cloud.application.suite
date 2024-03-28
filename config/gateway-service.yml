@@ -28,6 +28,10 @@ spring:
           filters:
             - RewritePath=/api/(?<path>.*), /$\{path}
             - GlobalFilter
+              args:
+                baseMessage: Spring Cloud Gateway Global Filter
+                preLogger: true
+                postLogger: true
 #            - CustomFilter
         - id: user-service
           uri: lb://USER-AUTH-SERVICE
