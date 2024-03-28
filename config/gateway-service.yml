@@ -28,13 +28,13 @@ spring:
           filters:
             - RewritePath=/api/(?<path>.*), /$\{path}
 #            - CustomFilter
-        - id: user-service
-          uri: lb://USER-AUTH-SERVICE
-          predicates:
-            - Path=/api/user/**
-          filters:
-            - RewritePath=/api/(?<path>.*), /$\{path}
-            - AuthorizationHeaderFilter
+#        - id: user-service
+#          uri: lb://USER-AUTH-SERVICE
+#          predicates:
+#            - Path=/api/user/**
+#          filters:
+#            - RewritePath=/api/(?<path>.*), /$\{path}
+#            - AuthorizationHeaderFilter
       default-filters:
 #        - name: GlobalFilter #Global Filter로 지정된 java 파일 이름
 #          args:
