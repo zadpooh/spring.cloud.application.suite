@@ -1,5 +1,6 @@
 package com.deep.night.filter;
 
+import com.deep.night.dto.AuthDto;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -12,15 +13,19 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Collections;
 import java.util.Map;
 
 @Component
@@ -29,7 +34,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
     Environment env;
 
-    public AuthorizationHeaderFilter(Environment en) {
+    public AuthorizationHeaderFilter(Environment env) {
         super(Config.class);
         this.env = env;
     }
@@ -42,15 +47,44 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-            if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+
+            if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)
+                    && !request.getCookies().containsKey("refreshToken")) {
                 return onError(exchange, "No authorization header", HttpStatus.UNAUTHORIZED);
             }
 
-            String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-            String jwt = authorizationHeader.replace("Bearer ", "");
+            if(request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)){
+                String authorizationHeader =  request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
+                String jwt = authorizationHeader.replace("Bearer ", "");
 
-            if (!isJwtValid(jwt)) {
-                return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
+                if (!isJwtValid(jwt)) {
+                    return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
+                }
+            }
+
+            if(request.getCookies().containsKey("refreshToken")){
+                WebClient webClient = WebClient.builder()
+                        .baseUrl("http://localhost:7733")
+                        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .build();
+
+                try {
+
+                    AuthDto.SignUpRes signUpRes =  webClient.post().uri("/api/auth/generate")
+                            .header("refreshToken", request.getCookies().get("refreshToken").get(0).getValue())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .retrieve()
+                            .bodyToMono(AuthDto.SignUpRes.class)
+                            .block();
+
+                    if (!isJwtValid(signUpRes.getAccessToken())) {
+                        return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
+                    }
+
+                } catch (Exception e){
+                    return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED, e);
+                }
             }
             return chain.filter(exchange);
         };
@@ -59,9 +93,13 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
     // mono, flux -> webflux : 단위 값이면 mono로 반환
     private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
+        return onError(exchange, err, httpStatus,null);
+    }
+
+    private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus, Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(httpStatus);
-        log.error(err);
+        log.error(err+ " : {} ", ex);
         return response.setComplete();
     }
 
@@ -122,6 +160,8 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             } else if (ex.getClass() == ExpiredJwtException.class) {
                 errorCode = 200;
             }
+
+            ex.printStackTrace();
 
             byte[] bytes = getErrorCode(errorCode).toString().getBytes(StandardCharsets.UTF_8);
             DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);

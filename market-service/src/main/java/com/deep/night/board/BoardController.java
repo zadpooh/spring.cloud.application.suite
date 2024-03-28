@@ -1,6 +1,6 @@
 package com.deep.night.board;
 
-import com.deep.night.board.entity.Board;
+import com.deep.night.board.entity.Market;
 import com.deep.night.board.dto.BoardDto;
 import com.deep.night.config.response.Result;
 import com.deep.night.repository.BoardRepository;
@@ -35,8 +35,8 @@ public class BoardController {
     public Result detail(@PathVariable(name="id") final int id,
                          @RequestHeader HttpHeaders header) throws Exception {
         log.info("header : {}", header);
-        Board boardDetail = boardRepository.findById(id).orElse(Board.builder().build());
-        return new Result<>(new BoardDto.Res(boardDetail));
+        Market marketDetail = boardRepository.findById(id).orElse(Market.builder().build());
+        return new Result<>(new BoardDto.Res(marketDetail));
     }
 
     @GetMapping("/board/create")

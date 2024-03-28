@@ -1,11 +1,10 @@
 package com.deep.night.board.dto;
 
-import com.deep.night.board.entity.Board;
+import com.deep.night.board.entity.Market;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 
@@ -28,8 +27,8 @@ public class BoardDto {
             this.createUserId = createUserId;
         }
 
-        public Board toEntity() {
-            return Board.builder()
+        public Market toEntity() {
+            return Market.builder()
                     .title(this.title)
                     .content(this.content)
                     .createDate(this.createDate)
@@ -49,14 +48,14 @@ public class BoardDto {
         private LocalDateTime updateDate;
         private String updateUserId;
 
-        public Res(Board dnBoard) {
-            this.dnBoardId = dnBoard.getDnBoardId();
-            this.title = dnBoard.getTitle();
-            this.content = dnBoard.getContent();
-            this.createDate = dnBoard.getCreateDate();
-            this.createUserId = dnBoard.getCreateUserId();
-            this.updateDate = dnBoard.getUpdateDate();
-            this.updateUserId = dnBoard.getUpdateUserId();
+        public Res(Market dnMarket) {
+            this.dnBoardId = dnMarket.getDnBoardId();
+            this.title = dnMarket.getTitle();
+            this.content = dnMarket.getContent();
+            this.createDate = dnMarket.getCreateDate();
+            this.createUserId = dnMarket.getCreateUserId();
+            this.updateDate = dnMarket.getUpdateDate();
+            this.updateUserId = dnMarket.getUpdateUserId();
         }
     }
 

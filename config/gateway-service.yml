@@ -13,28 +13,28 @@ spring:
           lower-case-service-id: true
           enabled: true
       routes:
-        - id: demo-service
-          uri: lb://DEMO-SERVICE
-          predicates:
-            - Path=/api/demo/**
-          filters:
-            - RewritePath=/api/demo/(?<path>.*), /$\{path}
-            - CustomFilter
-            - GlobalFilter
+#        - id: demo-service
+#          uri: lb://DEMO-SERVICE
+#          predicates:
+#            - Path=/api/demo/**
+#          filters:
+#            - RewritePath=/api/demo/(?<path>.*), /$\{path}
+#            - CustomFilter
+#            - GlobalFilter
         - id: auth-service
-          uri: lb://AUTH-SERVICE
+          uri: lb://USER-AUTH-SERVICE
           predicates:
             - Path=/api/auth/**
           filters:
-            - RewritePath=/api/auth/(?<path>.*), /$\{path}
+            - RewritePath=/api/(?<path>.*), /$\{path}
+            - GlobalFilter
 #            - CustomFilter
-#            - GlobalFilter
         - id: user-service
-          uri: lb://USER-SERVICE
+          uri: lb://USER-AUTH-SERVICE
           predicates:
             - Path=/api/user/**
           filters:
-            - RewritePath=/api/user/(?<path>.*), /$\{path}
+            - RewritePath=/api/(?<path>.*), /$\{path}
             - AuthorizationHeaderFilter
 #            - CustomFilter
 #            - GlobalFilter

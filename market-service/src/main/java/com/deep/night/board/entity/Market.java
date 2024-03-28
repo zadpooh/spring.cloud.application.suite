@@ -9,15 +9,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "DN_BOARD")
+@Table(name = "DN_MARKET")
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Board {
+public class Market {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "DN_BOARD_ID")
+    @Column(name = "DN_MARKET_ID")
     @Comment("기본키")
     private int dnBoardId;
 
@@ -27,6 +27,8 @@ public class Board {
     @Column(name = "CONTENT", nullable = false)
     private String content;
 
+    @Column(name = "MARKET_CATEGORY", nullable = false)
+    private String marketCategory;
 
     @CreationTimestamp
     @Column(name = "CREATE_DATE", nullable = false, updatable = false)
@@ -41,11 +43,5 @@ public class Board {
 
     @Column(name = "UPDATE_USER_ID", insertable = false)
     private String updateUserId;
-
-//    public void updateMyAccount(AccountDto.MyAccountReq dto) {
-//        this.address1 = dto.getAddress1();
-//        this.address2 = dto.getAddress2();
-//        this.zip = dto.getZip();
-//    }
 
 }
