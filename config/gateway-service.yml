@@ -27,7 +27,7 @@ spring:
             - Path=/api/auth/**
           filters:
             - RewritePath=/api/(?<path>.*), /$\{path}
-            - CustomFilter
+#            - CustomFilter
         - id: user-service
           uri: lb://USER-AUTH-SERVICE
           predicates:
@@ -35,14 +35,12 @@ spring:
           filters:
             - RewritePath=/api/(?<path>.*), /$\{path}
             - AuthorizationHeaderFilter
-#            - CustomFilter
-#            - GlobalFilter
       default-filters:
-        - name: GlobalFilter #Global Filter로 지정된 java 파일 이름
-          args:
-            baseMessage: Spring Cloud Gateway Global Filter
-            preLogger: true
-            postLogger: true
+#        - name: GlobalFilter #Global Filter로 지정된 java 파일 이름
+#          args:
+#            baseMessage: Spring Cloud Gateway Global Filter
+#            preLogger: true
+#            postLogger: true
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       globalcors:
         cors-configurations:
