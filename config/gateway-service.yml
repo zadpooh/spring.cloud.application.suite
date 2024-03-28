@@ -24,7 +24,7 @@ spring:
         - id: auth-service
           uri: lb://USER-AUTH-SERVICE
           predicates:
-            - Path=/api/auth/**
+            - Path=/api/auth/user/**
           filters:
             - RewritePath=/api/(?<path>.*), /$\{path}
 #            - CustomFilter
